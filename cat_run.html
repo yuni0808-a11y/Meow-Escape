@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { background: #eee; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; }
+  .cat-run {
+    width: 89px;
+    height: 116px;
+    background-image: url('cat_run_sprite.png');
+    background-repeat: no-repeat;
+    transform: scale(3); /* 원본이 작아서 보기 편하게 확대, 실제 게임에서는 조정/삭제 */
+  }
+</style>
+</head>
+<body>
+  <div class="cat-run" id="cat"></div>
+
+<script>
+  const cols = 6;
+  const totalFrames = 12;
+  const frameW = 89;
+  const frameH = 116;
+
+  const el = document.getElementById('cat');
+  let i = 0;
+
+  function setFrame(idx) {
+    const col = idx % cols;
+    const row = Math.floor(idx / cols);
+    el.style.backgroundPosition = `-${col * frameW}px -${row * frameH}px`;
+  }
+
+  setInterval(() => {
+    setFrame(i);
+    i = (i + 1) % totalFrames;
+  }, 1000 / 12); // 12fps 러닝 루프
+</script>
+</body>
+</html>
