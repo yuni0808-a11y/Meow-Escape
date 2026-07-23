@@ -6,10 +6,11 @@
   body { background: #eee; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; }
   .cat-run {
     width: 89px;
-    height: 116px;
+    height: 117px;
     background-image: url('cat_run_sprite.png');
     background-repeat: no-repeat;
-    transform: scale(3); /* 원본이 작아서 보기 편하게 확대, 실제 게임에서는 조정/삭제 */
+    transform: scale(3); /* 보기 편하게 확대, 실제 게임에서는 조정/삭제 */
+    transform-origin: center;
   }
 </style>
 </head>
@@ -20,7 +21,7 @@
   const cols = 6;
   const totalFrames = 12;
   const frameW = 89;
-  const frameH = 116;
+  const frameH = 117;
 
   const el = document.getElementById('cat');
   let i = 0;
@@ -34,7 +35,7 @@
   setInterval(() => {
     setFrame(i);
     i = (i + 1) % totalFrames;
-  }, 1000 / 12); // 12fps 러닝 루프
+  }, 1000 / 12);
 </script>
 </body>
 </html>
