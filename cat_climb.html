@@ -5,11 +5,11 @@
 <style>
   body { background: #eee; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; }
   .cat-climb {
-    width: 356px;
-    height: 554px;
+    width: 136px;
+    height: 288px;
     background-image: url('cat_climb_sprite.png');
     background-repeat: no-repeat;
-    transform: scale(0.5); /* 실제 게임 크기에 맞게 조정 */
+    transform: scale(1.5); /* 실제 게임 크기에 맞게 조정 */
   }
 </style>
 </head>
@@ -18,8 +18,8 @@
 
 <script>
   const totalFrames = 4;
-  const frameW = 356;
-  const frameH = 554;
+  const frameW = 136;
+  const frameH = 288;
 
   const el = document.getElementById('cat');
   let i = 0;
@@ -31,7 +31,7 @@
   setInterval(() => {
     setFrame(i);
     i = (i + 1) % totalFrames;
-  }, 1000 / 8); // 사다리 오르기는 조금 느리게(8fps) 추천
+  }, 1000 / 8); // 사다리 오르기 8fps
 </script>
 </body>
 </html>
