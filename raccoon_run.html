@@ -4,25 +4,25 @@
 <meta charset="UTF-8">
 <style>
   body { background: #eee; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; }
-  .cat-run {
-    width: 147px;
-    height: 155px;
-    background-image: url('cat_run_sprite.png');
+  .raccoon-run {
+    width: 122px;
+    height: 111px;
+    background-image: url('raccoon_run_sprite.png');
     background-repeat: no-repeat;
-    transform: scale(1.8); /* 보기 편하게 확대, 실제 게임에서는 조정/삭제 */
+    transform: scale(2.5); /* 보기 편하게 확대, 실제 게임에서는 조정/삭제 */
   }
 </style>
 </head>
 <body>
-  <div class="cat-run" id="cat"></div>
+  <div class="raccoon-run" id="raccoon"></div>
 
 <script>
   const cols = 4;
-  const totalFrames = 8;
-  const frameW = 147;
-  const frameH = 155;
+  const totalFrames = 12;
+  const frameW = 122;
+  const frameH = 111;
 
-  const el = document.getElementById('cat');
+  const el = document.getElementById('raccoon');
   let i = 0;
 
   function setFrame(idx) {
@@ -34,7 +34,7 @@
   setInterval(() => {
     setFrame(i);
     i = (i + 1) % totalFrames;
-  }, 1000 / 12);
+  }, 1000 / 12); // 12fps 러닝 루프
 </script>
 </body>
 </html>
