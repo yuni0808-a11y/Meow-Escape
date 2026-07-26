@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cat Run Animation</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(#9ee8ff 0 70%, #d9f2ca 70%);
+    }
+
+    .stage {
+      position: relative;
+      width: min(100vw, 960px);
+      height: 420px;
+      overflow: hidden;
+    }
+
+    .ground {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 72px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(62, 91, 72, 0.28);
+    }
+
+    .cat {
+      --frame-width: 432px;
+      --frame-height: 455px;
+      --scale: 0.48;
+
+      position: absolute;
+      left: 80px;
+      bottom: 72px;
+      width: calc(var(--frame-width) * var(--scale));
+      height: calc(var(--frame-height) * var(--scale));
+      background-image: url("./cat-run-compact-8frames.png");
+      background-repeat: no-repeat;
+      background-size: 400% 200%;
+      background-position: 0% 0%;
+      transform-origin: center bottom;
+      will-change: left, background-position, transform;
+    }
+
+    .cat.reverse {
+      transform: scaleX(-1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cat { background-position: 0% 0% !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage" aria-label="달리는 고양이 애니메이션">
+    <div class="ground"></div>
+    <div class="cat" role="img" aria-label="달리는 분홍 고양이"></div>
+  </main>
+
+  <script>
+    const cat = document.querySelector(".cat");
+    const stage = document.querySelector(".stage");
+
+    const TOTAL_FRAMES = 8;
+    const COLUMNS = 4;
+    const FPS = 11;             // 다리 움직임 속도
+    const MOVE_SPEED = 145;     // 초당 이동 거리(px)
+
+    let frame = 0;
+    let direction = 1;
+    let x = 80;
+    let lastTime = performance.now();
+    let frameElapsed = 0;
+
+    function showFrame(index) {
+      const column = index % COLUMNS;
+      const row = Math.floor(index / COLUMNS);
+
+      // 4×2 시트에서 각 프레임의 위치를 선택합니다.
+      cat.style.backgroundPosition =
+        `${column * (100 / (COLUMNS - 1))}% ${row * 100}%`;
+    }
+
+    function animate(now) {
+      const delta = Math.min((now - lastTime) / 1000, 0.05);
+      lastTime = now;
+      frameElapsed += delta;
+
+      if (frameElapsed >= 1 / FPS) {
+        frame = (frame + 1) % TOTAL_FRAMES;
+        showFrame(frame);
+        frameElapsed %= 1 / FPS;
+      }
+
+      x += direction * MOVE_SPEED * delta;
+
+      const maxX = stage.clientWidth - cat.offsetWidth;
+      if (x >= maxX) {
+        x = maxX;
+        direction = -1;
+        cat.classList.add("reverse");
+      } else if (x <= 0) {
+        x = 0;
+        direction = 1;
+        cat.classList.remove("reverse");
+      }
+
+      cat.style.left = `${x}px`;
+      requestAnimationFrame(animate);
+    }
+
+    showFrame(0);
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
